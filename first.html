@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammed Jowhar - Embedded Systems Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --bg: #0f172a;
+            --bg-light: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --card-bg: #1e293b;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-30%, -30%); }
+        }
+
+        /* Header/Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+
+        .hero-content .description {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: var(--text-muted);
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Styles */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .skill-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .skill-card ul {
+            list-style: none;
+        }
+
+        .skill-card li {
+            padding: 0.5rem 0;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+        }
+
+        .skill-card li::before {
+            content: '▹';
+            color: var(--primary);
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        .project-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .project-number {
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .project-card h3 {
+            color: var(--text);
+            margin: 0.5rem 0;
+            font-size: 1.3rem;
+        }
+
+        .project-body {
+            padding: 1.5rem;
+        }
+
+        .project-body p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            padding: 0.3rem 0.8rem;
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        /* Experience Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid var(--bg);
+        }
+
+        .timeline-item h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item .date {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-item ul {
+            list-style: none;
+        }
+
+        .timeline-item li {
+            color: var(--text-muted);
+            padding: 0.3rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .timeline-item li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        /* Education & Certifications */
+        .education-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .education-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .education-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .education-card .degree {
+            color: var(--text);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-card .percentage {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .contact-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .contact-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .contact-card h3 {
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .contact-card a {
+            color: var(--text-muted);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .contact-card a:hover {
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-light);
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .projects-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <nav>
+            <div class="logo">MJ</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Muhammed Jowhar</h1>
+            <p class="subtitle">Embedded Systems Engineer</p>
+            <p class="description">
+                Passionate about bare-metal microcontroller development, firmware engineering, 
+                and building reliable real-time embedded systems with C programming expertise.
+            </p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">View My Work</a>
+                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">
+                I'm an entry-level Embedded Engineer with a strong foundation in C programming, 
+                bare-metal microcontroller development, and hardware interfacing. Currently pursuing 
+                advanced training in Embedded Systems through a Government of India certified program 
+                (NSDC/ESSCI). I'm passionate about firmware development, peripheral integration, 
+                and creating reliable real-time embedded systems.
+            </p>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>Programming Languages</h3>
+                <ul>
+                    <li>Embedded C</li>
+                    <li>Pointers & Memory Handling</li>
+                    <li>Bitwise Operations</li>
+                    <li>Data Structures</li>
+                </ul>
+            </div>
+
+            <div class="skill-card">
+                <h3>Microcontroller</h3>
+                <ul>
+                    <li>PIC18F4580 (Bare-metal)</li>
+                    <li>GPIO, ADC, Timers, PWM</li>
+                    <li>16×2 LCD Interfacing</li>
+                    <li>Interrupt-driven Design</li>
+                </ul>
+            </div>
+
+            <div class="skill-card">
+                <h3>Communication Protocols</h3>
+                <ul>
+                    <li>UART</li>
+                    <li>SPI</li>
+                    <li>I²C (RTC DS1307)</li>
+                    <li>CAN Protocol</li>
+                </ul>
+            </div>
+
+            <div class="skill-card">
+                <h3>Development Tools</h3>
+                <ul>
+                    <li>MPLAB X IDE</li>
+                    <li>Microchip XC8 Compiler</li>
+                    <li>VS Code</li>
+                    <li>Git Version Control</li>
+                </ul>
+            </div>
+
+            <div class="skill-card">
+                <h3>Linux System Programming</h3>
+                <ul>
+                    <li>Process & Thread Management</li>
+                    <li>IPC (Pipes, Shared Memory)</li>
+                    <li>Signals & Signal Handling</li>
+                    <li>Multithreading with Semaphores</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-number">Project #6</div>
+                    <h3>CAN-Based Car Dashboard System</h3>
+                </div>
+                <div class="project-body">
+                    <p>Real-time vehicle dashboard using CAN communication protocol to display speed, RPM, gear position, and indicators. Implemented CAN transmit/receive logic with message parsing and signal extraction.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Embedded C</span>
+                        <span class="tech-tag">CAN Protocol</span>
+                        <span class="tech-tag">Real-time Systems</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-number">Project #4</div>
+                    <h3>Inverted Search Engine</h3>
+                </div>
+                <div class="project-body">
+                    <p>Hash table-based inverted index mapping words to files with occurrence counts. Supports search, display, database save/load operations using linked lists and dynamic memory.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">C</span>
+                        <span class="tech-tag">Data Structures</span>
+                        <span class="tech-tag">Hashing</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-number">Project #5</div>
+                    <h3>Arbitrary Precision Calculator</h3>
+                </div>
+                <div class="project-body">
+                    <p>Calculator supporting unlimited-size integer arithmetic using doubly linked lists. Implemented manual carry/borrow logic for addition, subtraction, multiplication, and division.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">C</span>
+                        <span class="tech-tag">Linked Lists</span>
+                        <span class="tech-tag">Algorithms</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-number">Project #2</div>
+                    <h3>LSB Image Steganography</h3>
+                </div>
+                <div class="project-body">
+                    <p>Hide and retrieve secret text inside BMP images using Least Significant Bit encoding without altering visible quality. Designed modular encode/decode routines.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">C</span>
+                        <span class="tech-tag">Bitwise Operations</span>
+                        <span class="tech-tag">File I/O</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-number">Project #3</div>
+                    <h3>MP3 Tag Reader/Editor</h3>
+                </div>
+                <div class="project-body">
+                    <p>Command-line MP3 metadata reader/editor supporting ID3v2.3 tags. View and modify title, artist, album, genre with safe binary operations.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">C</span>
+                        <span class="tech-tag">Binary Parsing</span>
+                        <span class="tech-tag">File Handling</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-number">Project #7</div>
+                    <h3>Lexical Analyzer</h3>
+                </div>
+                <div class="project-body">
+                    <p>Tokenize C source files into keywords, identifiers, constants, and operators. Character-by-character parsing with state-based logic for compiler front-end development.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">C</span>
+                        <span class="tech-tag">Compiler Design</span>
+                        <span class="tech-tag">Parsing</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-number">Academic Project</div>
+                    <h3>Automatic Waste Segregator</h3>
+                </div>
+                <div class="project-body">
+                    <p>Sensor-based smart waste bin with presence detection, fill-level monitoring, and automated lid operation. Team project focusing on peripheral integration.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Arduino</span>
+                        <span class="tech-tag">Sensors</span>
+                        <span class="tech-tag">IoT</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-number">Project #1</div>
+                    <h3>Person of Interest Database</h3>
+                </div>
+                <div class="project-body">
+                    <p>Detective-themed address book system with add, edit, delete, search operations. Persistent storage using file I/O and structured programming.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">C</span>
+                        <span class="tech-tag">File I/O</span>
+                        <span class="tech-tag">CLI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2 class="section-title">Work Experience</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>Technical Training - Embedded Systems</h3>
+                <div class="date">Emertxe Information Technologies | May 2025 – Present</div>
+                <ul>
+                    <li>Advanced Embedded Systems Course (Government of India certified - NSDC/ESSCI)</li>
+                    <li>Electronics Sector Skill Council of India (ESSCI)</li>
+                    <li>Qualification: Embedded Software Engineer (QP ELE/Q1501)</li>
+                    <li>Focus: Embedded C, Microcontrollers, Communication Protocols</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <h3>Production Associate</h3>
+                <div class="date">Schneider Electric, Bengaluru | Aug 2024 – Dec 2024</div>
+                <ul>
+                    <li>Quality inspection and testing of electrical products</li>
+                    <li>Exposure to industrial manufacturing processes and quality standards</li>
+                    <li>Team-driven production environment experience</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2 class="section-title">Education & Certifications</h2>
+        <div class="education-grid">
+            <div class="education-card">
+                <h3>B.Tech in Electronics and Communication Engineering</h3>
+                <p class="degree">MES Engineering College</p>
+                <p>2020 – 2024</p>
+                <p class="percentage">Aggregate: 68%</p>
+            </div>
+
+            <div class="education-card">
+                <h3>Class XII - Kerala Board of HSE</h3>
+                <p>2017 – 2019</p>
+                <p class="percentage">Aggregate: 82.6%</p>
+            </div>
+
+            <div class="education-card">
+                <h3>Class X - CBSE</h3>
+                <p>Completed 2017</p>
+                <p class="percentage">Aggregate: 96%</p>
+            </div>
+
+            <div class="education-card" style="border-left-color: var(--accent);">
+                <h3>📜 Certifications</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 0.5rem 0; color: var(--text-muted);">✓ Embedded Systems for Beginners - NIELIT Calicut</li>
+                    <li style="padding: 0.5rem 0; color: var(--text-muted);">✓ Arduino Basics with Proteus Simulation - IEEE</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <h3>📧 Email</h3>
+                <a href="mailto:mojowhar78@gmail.com">mojowhar78@gmail.com</a>
+            </div>
+
+            <div class="contact-card">
+                <h3>📱 Phone</h3>
+                <a href="tel:+919744078743">+91 9744078743</a>
+            </div>
+
+            <div class="contact-card">
+                <h3>💼 LinkedIn</h3>
+                <a href="https://linkedin.com/in/mojowhar" target="_blank">linkedin.com/in/mojowhar</a>
+            </div>
+
+            <div class="contact-card">
+                <h3>📍 Location</h3>
+                <p style="color: var(--text-muted);">Southern Bengaluru, India</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Muhammed Jowhar. Crafted with passion for embedded systems.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.skill-card, .project-card, .timeline-item, .education-card, .contact-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
